@@ -15,11 +15,11 @@ public class Controller implements ActionListener {
 	public Controller() {
 		tree = new AVLTree();
 		tree.add(new NodeAVL(10));
-//		tree.add(new NodeAVL(7));
-//		tree.add(new NodeAVL(5));
+		tree.add(new NodeAVL(8));
+		tree.add(new NodeAVL(9));
 //		tree.add(new NodeAVL(1));
-		tree.add(new NodeAVL(100));
-		tree.add(new NodeAVL(200));
+//		tree.add(new NodeAVL(100));
+//		tree.add(new NodeAVL(200));
 //		tree.add(new NodeAVL(90));
 
 		window = new WindowTree(this);
@@ -37,6 +37,7 @@ public class Controller implements ActionListener {
 		}else {
 			System.out.println("Balance");
 			tree.balance();
+			window.setLabel(tree.getMetod());
 		}
 		window.paintTree(tree.getRoot());
 	}

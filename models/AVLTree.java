@@ -3,6 +3,7 @@ package models;
 public class AVLTree {
 
 	private NodeAVL root;
+	private String metod;
 
 	public void add(NodeAVL node) {
 		if (root != null) {
@@ -35,37 +36,89 @@ public class AVLTree {
 	public void balance() {
 		int tamValue = height(root.getLeft()) - height(root.getRight());
 		System.out.println("Tamaño: " + tamValue);
-		if (height(root.getLeft()) - height(root.getRight()) == 2
-				|| height(root.getLeft()) - height(root.getRight()) == -2) {
+		if (height(root.getLeft()) - height(root.getRight()) == 2) {
 			if (root.getLeft() != null) {
-				System.out.println("Izquierda");
-				NodeAVL aux = root.getLeft();
-				root.setLeft(aux.getLeft());
-				aux.setRight(root);
-				root = aux;
-				root.setRight(aux.getRight());
+				if (root.getLeft().getLeft() != null) {
+					rotationDoubleLeft();
+					
+					
 
-			} else {
-				System.out.println("Derecha");
-				NodeAVL aux = root.getRight();
-				root.setRight(aux.getRight());
-				aux.setLeft(root);
-				root = aux;
-				root.setLeft(aux.getLeft());
+				} else {
+					rotationSimpleLeft();
+				}
+
 			}
-			{
+		} else if (height(root.getLeft()) - height(root.getRight()) == -2) {
+			if (root.getRight() != null) {
+				if (root.getRight().getRight() != null) {
+					rotationDoubleRight();
 
+				} else {
+					rotationSimpleRight();
+				}
 			}
 		}
+	}
+
+	private void rotationDoubleRight() {
+		System.out.println("Derecha");
+		NodeAVL aux = root.getRight();
+		root.setRight(aux.getRight());
+		aux.setLeft(root);
+		root = aux;
+		root.getLeft().setRight(null);
+		setMetod("Rotacion Doble ala Izquierda");
+		root.getLeft().setTam(0);
+		root.setTam(0);
+	}
+
+	private void rotationSimpleLeft() {
+		NodeAVL aux = root.getLeft().getRight();
+		root.getLeft().setRight(null);
+		aux.setRight(root);
+		aux.setLeft(root.getLeft());
+		root = aux;
+		root.getRight().setLeft(null);
+		setMetod("Rotacion Derecha -Izquierda");
+		root.getLeft().setTam(0);
+		root.getRight().setTam(0);
+	}
+
+	private void rotationSimpleRight() {
+		NodeAVL aux = root.getRight().getLeft();
+		root.getRight().setLeft(null);
+		aux.setLeft(root);
+		aux.setRight(root.getRight());
+		root = aux;
+		root.getLeft().setRight(null);
+		setMetod("Rotacion Izquierda - Derecha");
+		root.getLeft().setTam(0);
+		root.getRight().setTam(0);
+	}
+
+	private void rotationDoubleLeft() {
+		System.out.println("Izquierda");
+		NodeAVL aux = root.getLeft();
+		root.setLeft(aux.getLeft());
+		aux.setRight(root);
+		root = aux;
+		root.getRight().setLeft(null);
+		setMetod("Rotacion Doble a la Derecha");
+		root.setTam(0);
+		root.getRight().setTam(0);
 	}
 
 	private int height(NodeAVL node) {
 		return (node == null) ? -1 : node.getTam();
 	}
-	//
-	// private int max(int heightLeft, int heightRight) {
-	// return heightLeft > heightRight ? heightLeft : heightRight;
-	// }
+
+	public String getMetod() {
+		return metod;
+	}
+
+	public void setMetod(String metod) {
+		this.metod = metod;
+	}
 
 	public NodeAVL getRoot() {
 		return root;
