@@ -34,8 +34,6 @@ public class AVLTree {
 	}
 
 	public void balance() {
-		int tamValue = height(root.getLeft()) - height(root.getRight());
-		System.out.println("Tamaño: " + tamValue);
 		if (height(root.getLeft()) - height(root.getRight()) == 2) {
 			if (root.getLeft() != null) {
 				if (root.getLeft().getLeft() != null) {
